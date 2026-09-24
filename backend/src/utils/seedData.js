@@ -115,7 +115,9 @@ const autoSeedRewardsIfEmpty = async () => {
       console.log('[Seed] Default StreakConfig created.');
     }
   } catch (error) {
-    console.error('[Seed Error]', error.message);
+    if (error.code !== 11000) {
+      console.error('[Seed Error]', error.message);
+    }
   }
 };
 
