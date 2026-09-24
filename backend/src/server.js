@@ -21,6 +21,29 @@ const startServer = async () => {
       console.log(`====================================================`);
     });
 
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`\n❌ [Server Error] Port ${PORT} is already in use by another instance.`);
+        console.error(`👉 Close the existing terminal running the backend or kill the process on port ${PORT}.\n`);
+      } else {
+        console.error(`\n❌ [Server Error] ${err.message}\n`);
+      }
+      process.exit(1);
+    });
+
+    // Graceful shutdown on nodemon restart (SIGUSR2) and termination
+    process.once('SIGUSR2', () => {
+      server.close(() => {
+        process.kill(process.pid, 'SIGUSR2');
+      });
+    });
+    process.on('SIGINT', () => {
+      server.close(() => process.exit(0));
+    });
+    process.on('SIGTERM', () => {
+      server.close(() => process.exit(0));
+    });
+
     // Handle unhandled promise rejections
     process.on('unhandledRejection', (err) => {
       console.error(`[Unhandled Rejection] Error: ${err.message}`);
