@@ -1,0 +1,970 @@
+/* DailyStreak.module.css - VELoop Dark Premium Theme */
+
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem 1rem;
+}
+
+/* ================== Header ================== */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerIconBadge {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(245, 158, 11, 0.2));
+  border: 1px solid var(--border-active);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--primary-glow);
+}
+
+.mainTitle {
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #FFFFFF 30%, #DDD6FE 70%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0.2rem 0 0 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cycleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #C4B5FD;
+}
+
+/* ================== Hero Banner ================== */
+.heroBanner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(23, 14, 56, 0.95) 0%, rgba(13, 7, 33, 0.95) 100%);
+  border: 1px solid var(--border-active);
+  border-radius: 24px;
+  padding: 2.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), var(--primary-glow);
+  overflow: hidden;
+}
+
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroText h2 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  color: #FFFFFF;
+}
+
+.heroHighlight {
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroSubtext {
+  font-size: 1rem;
+  color: #C4B5FD;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+}
+
+.heroActionGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.claimHeroBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.85rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+  transition: var(--transition-bounce);
+}
+
+.claimHeroBtn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.7);
+}
+
+.claimHeroBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+.claimHeroBtn.activeClaim {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+  animation: pulseGlow 2s infinite;
+}
+
+/* Timer Box in Hero */
+.heroTimerCard {
+  background: rgba(13, 7, 33, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.timerLabel {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.countdownDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.timeSegment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeNumber {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F8FAFC;
+  background: rgba(23, 14, 56, 0.9);
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  min-width: 52px;
+  text-align: center;
+}
+
+.timeColon {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  margin-bottom: 0.75rem;
+}
+
+.timeLabel {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+.timerReadyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+}
+
+/* ================== Stats Section ================== */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 1.35rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  transition: var(--transition-smooth);
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-active);
+  background: var(--bg-card-hover);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.statIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statIconPurple {
+  background: rgba(124, 58, 237, 0.2);
+  color: #A78BFA;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.statIconGold {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.statIconGreen {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.statIconBlue {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.statValue {
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+}
+
+/* ================== Ultimate Reward Banner (Day 7) ================== */
+.ultimateSection {
+  margin-bottom: 2.25rem;
+}
+
+.ultimateCard {
+  position: relative;
+  background: linear-gradient(135deg, rgba(30, 20, 70, 0.95) 0%, rgba(20, 13, 48, 0.95) 100%);
+  border: 2px solid rgba(245, 158, 11, 0.6);
+  border-radius: 22px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), var(--gold-glow);
+  overflow: hidden;
+}
+
+.ultimateCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F59E0B, #FDE68A, #F59E0B);
+  background-size: 200% auto;
+  animation: goldShine 3s linear infinite;
+}
+
+.ultimateLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ultimateCrownBadge {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1033;
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+  flex-shrink: 0;
+}
+
+.ultimateInfo h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ultimatePill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.25);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #FDE68A;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ultimateDesc {
+  font-size: 0.9rem;
+  color: #E2E8F0;
+  margin: 0.35rem 0 0 0;
+}
+
+.ultimateRewardTag {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FBBF24;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ultimateSubtitle {
+  font-size: 0.75rem;
+  color: #CBD5E1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ================== Reward Grid ================== */
+.gridSectionTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cycleTrackInfo {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.rewardsGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ================== Reward Card ================== */
+.rewardCard {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: var(--transition-bounce);
+  min-height: 220px;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.rewardCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* State: AVAILABLE */
+.cardAvailable {
+  background: linear-gradient(180deg, rgba(23, 14, 56, 0.95) 0%, rgba(35, 18, 80, 0.95) 100%);
+  border: 2px solid var(--primary-purple);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.45);
+  animation: pulseGlow 3s infinite;
+}
+
+/* State: TODAY (Cooling down) */
+.cardToday {
+  background: linear-gradient(180deg, rgba(23, 14, 56, 0.95) 0%, rgba(20, 10, 50, 0.95) 100%);
+  border: 1px solid #A855F7;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.3);
+}
+
+/* State: CLAIMED */
+.cardClaimed {
+  background: rgba(16, 26, 35, 0.8);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  opacity: 0.85;
+}
+
+/* State: LOCKED */
+.cardLocked {
+  background: rgba(14, 9, 30, 0.65);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  opacity: 0.6;
+}
+
+/* State: MISSED */
+.cardMissed {
+  background: rgba(30, 12, 18, 0.7);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  opacity: 0.75;
+}
+
+/* Ultimate Card Highlight inside grid */
+.cardUltimate {
+  border: 2px solid rgba(245, 158, 11, 0.7);
+  background: linear-gradient(180deg, rgba(23, 14, 56, 0.95) 0%, rgba(45, 25, 10, 0.95) 100%);
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+}
+
+.dayBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.dayBadgeActive {
+  background: rgba(139, 92, 246, 0.3);
+  color: #DDD6FE;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+.cardIconBox {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+  transition: var(--transition-smooth);
+}
+
+.cardValueText {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0.2rem 0;
+  line-height: 1.2;
+}
+
+.cardDescText {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+
+/* Card State Footer Badge or Button */
+.cardFooter {
+  width: 100%;
+  margin-top: auto;
+}
+
+.claimCardBtn {
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  transition: var(--transition-bounce);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.claimCardBtn:hover {
+  transform: scale(1.04);
+}
+
+.claimedBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.lockedBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+}
+
+.todayCooldownBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #C4B5FD;
+  background: rgba(139, 92, 246, 0.15);
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.missedBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #F87171;
+  background: rgba(239, 68, 68, 0.15);
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ================== Why Streak Section ================== */
+.whySection {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  padding: 2.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.whyHeader {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+.whyHeader h3 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.whyHeader p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.whyCard {
+  background: rgba(13, 7, 33, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: var(--transition-smooth);
+}
+
+.whyCard:hover {
+  border-color: var(--border-active);
+  transform: translateY(-3px);
+}
+
+.whyIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.2);
+  color: #A78BFA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whyCard h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.whyCard p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ================== Trust Footer ================== */
+.trustFooter {
+  border-top: 1px solid var(--border-subtle);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.trustBadges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* ================== Modals (Claim & CPA Demo) ================== */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(7, 4, 18, 0.85);
+  backdrop-filter: blur(14px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modalBox {
+  background: linear-gradient(135deg, rgba(23, 14, 56, 0.98) 0%, rgba(13, 7, 33, 0.98) 100%);
+  border: 1px solid var(--border-active);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), var(--primary-glow);
+  position: relative;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.modalCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.modalIconCircle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+  color: #FFFFFF;
+}
+
+.modalTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.rewardRevealBox {
+  background: rgba(13, 7, 33, 0.7);
+  border: 1px dashed var(--border-active);
+  border-radius: 16px;
+  padding: 1.25rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.revealValue {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FBBF24;
+}
+
+.revealTitle {
+  font-size: 0.95rem;
+  color: #DDD6FE;
+  margin-top: 0.2rem;
+}
+
+.cpaNotice {
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 12px;
+  padding: 0.9rem;
+  font-size: 0.85rem;
+  color: #C4B5FD;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.cpaProgressContainer {
+  margin-bottom: 1.5rem;
+}
+
+.cpaProgressBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.cpaProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #8B5CF6, #F59E0B);
+  transition: width 0.3s ease;
+}
+
+/* ================== Skeletons ================== */
+.skeletonHeader {
+  height: 50px;
+  border-radius: 14px;
+  margin-bottom: 2rem;
+}
+
+.skeletonHero {
+  height: 220px;
+  border-radius: 24px;
+  margin-bottom: 2rem;
+}
+
+.skeletonStats {
+  height: 90px;
+  border-radius: 18px;
+}
+
+.skeletonCard {
+  height: 220px;
+  border-radius: 18px;
+}
+
+/* ================== Responsive Design ================== */
+@media (max-width: 1100px) {
+  .rewardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+  }
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .whyGrid {
+    grid-template-columns: 1fr;
+  }
+  .rewardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .pageContainer {
+    padding: 1rem 0.75rem 3rem 0.75rem;
+  }
+  .headerContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .mainTitle {
+    font-size: 1.45rem;
+  }
+  .heroBanner {
+    padding: 1.5rem 1.25rem;
+  }
+  .heroText h2 {
+    font-size: 1.55rem;
+  }
+  .rewardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .ultimateCard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem;
+  }
+  .ultimateRewardTag {
+    text-align: left;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .rewardsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

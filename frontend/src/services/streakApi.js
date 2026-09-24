@@ -1,0 +1,112 @@
+import api from './api';
+
+/**
+ * Fetch complete daily streak dashboard data
+ * Includes current cycle, eligibility, 7-day cards with states, countdowns, and stats
+ */
+export const getDailyStreak = async () => {
+  const response = await api.get('/api/daily-streak');
+  return response.data;
+};
+
+/**
+ * Lightweight check for live countdown verification & eligibility status
+ */
+export const getStreakStatus = async () => {
+  const response = await api.get('/api/daily-streak/status');
+  return response.data;
+};
+
+/**
+ * Claim the currently available daily streak reward
+ * @param {Object} data - { cpaToken, cpaEngagementSeconds }
+ */
+export const claimDailyReward = async (data = {}) => {
+  const response = await api.post('/api/daily-streak/claim', data);
+  return response.data;
+};
+
+/**
+ * Fetch paginated reward claim history
+ * @param {number} page
+ * @param {number} limit
+ */
+export const getStreakHistory = async (page = 1, limit = 15) => {
+  const response = await api.get(`/api/daily-streak/history?page=${page}&limit=${limit}`);
+  return response.data;
+};
+
+/**
+ * Fetch wallet balance, Amazon vouchers, and transactions
+ */
+export const getWallet = async () => {
+  const response = await api.get('/api/wallet');
+  return response.data;
+};
+
+/**
+ * Mark an Amazon gift card voucher as redeemed
+ */
+export const redeemGiftCard = async (voucherId) => {
+  const response = await api.post(`/api/wallet/redeem/${voucherId}`);
+  return response.data;
+};
+
+/**
+ * Dev Helper: Fast-forward cooldown to test all 7 days seamlessly
+ */
+export const devAdvanceDay = async () => {
+  const response = await api.post('/api/daily-streak/dev-advance-day');
+  return response.data;
+};
+
+/**
+ * Dev Helper: Simulate a missed 48-hour window to test automatic streak reset
+ */
+export const devSimulateMissed = async () => {
+  const response = await api.post('/api/daily-streak/dev-simulate-missed');
+  return response.data;
+};
+
+// ================= Auth API Calls =================
+
+export const loginUser = async (credentials) => {
+  const response = await api.post('/api/auth/login', credentials);
+  return response.data;
+};
+
+export const registerUser = async (userData) => {
+  const response = await api.post('/api/auth/register', userData);
+  return response.data;
+};
+
+export const getCurrentUser = async () => {
+  const response = await api.get('/api/auth/me');
+  return response.data;
+};
+
+export const logoutUser = async () => {
+  const response = await api.post('/api/auth/logout');
+  return response.data;
+};
+
+export const updateProfile = async (profileData) => {
+  const response = await api.put('/api/auth/profile', profileData);
+  return response.data;
+};
+
+export default {
+  getDailyStreak,
+  getStreakStatus,
+  claimDailyReward,
+  getStreakHistory,
+  getWallet,
+  redeemGiftCard,
+  devAdvanceDay,
+  devSimulateMissed,
+  loginUser,
+  registerUser,
+  getCurrentUser,
+  logoutUser,
+  updateProfile,
+};

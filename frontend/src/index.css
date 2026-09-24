@@ -1,0 +1,188 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Color Palette - Premium Dark VELoop */
+  --bg-deep: #070412;
+  --bg-main: #0D0721;
+  --bg-surface: #130B2E;
+  --bg-card: #170E38;
+  --bg-card-hover: #20134D;
+  --bg-glass: rgba(19, 11, 46, 0.7);
+
+  /* Primary Violet/Purple */
+  --primary-violet: #7C3AED;
+  --primary-purple: #8B5CF6;
+  --primary-light: #A78BFA;
+  --primary-glow: 0 0 25px rgba(139, 92, 246, 0.35);
+  --primary-glow-lg: 0 0 50px rgba(139, 92, 246, 0.5);
+
+  /* Gold / Yellow Accent */
+  --gold-accent: #F59E0B;
+  --gold-bright: #FBBF24;
+  --gold-light: #FDE68A;
+  --gold-glow: 0 0 25px rgba(245, 158, 11, 0.4);
+
+  /* Success Green */
+  --green-success: #10B981;
+  --green-glow: 0 0 20px rgba(16, 185, 129, 0.3);
+
+  /* Danger / Missed Red */
+  --red-danger: #EF4444;
+  --red-glow: 0 0 20px rgba(239, 68, 68, 0.3);
+
+  /* Borders & Text */
+  --border-subtle: rgba(139, 92, 246, 0.18);
+  --border-active: rgba(139, 92, 246, 0.5);
+  --border-gold: rgba(245, 158, 11, 0.45);
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+
+  /* Radius & Transitions */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(13, 7, 33, 1) 0%, rgba(7, 4, 18, 1) 100%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+a:hover {
+  color: #DDD6FE;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.glow-purple {
+  box-shadow: var(--primary-glow);
+}
+
+.glow-gold {
+  box-shadow: var(--gold-glow);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    transform: translateY(0px);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.7);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes goldShine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes floatAnim {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* App container */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 20px;
+  padding-bottom: 60px;
+}

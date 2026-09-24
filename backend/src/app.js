@@ -1,0 +1,71 @@
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const { errorHandler, notFoundHandler } = require('./middleware/errorMiddleware');
+
+const authRoutes = require('./routes/authRoutes');
+const streakRoutes = require('./routes/streakRoutes');
+const walletRoutes = require('./routes/walletRoutes');
+
+const app = express();
+
+// Security HTTP headers
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
+// Enable CORS with support for frontend dev server
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  process.env.CORS_ORIGIN,
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
+
+// Body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Request logging in development
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    service: 'VELoop Rewards – Daily Streak System API',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/daily-streak', streakRoutes);
+app.use('/api/wallet', walletRoutes);
+
+// 404 Handler
+app.use(notFoundHandler);
+
+// Centralized Error Handler
+app.use(errorHandler);
+
+module.exports = app;
