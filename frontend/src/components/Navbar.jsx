@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Flame, Wallet, History, User, LogOut, Menu, X, Coins, Gift } from 'lucide-react';
+import { Flame, Wallet, History, User, LogOut, Menu, X, Coins, Gift, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
