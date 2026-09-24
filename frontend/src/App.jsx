@@ -14,6 +14,7 @@ import RegisterPage from './pages/Register/RegisterPage';
 import WalletPage from './pages/Wallet/WalletPage';
 import HistoryPage from './pages/History/HistoryPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import AdminPage from './pages/Admin/AdminPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function App() {
@@ -71,7 +72,17 @@ function App() {
                   }
                 />
 
-                {/* 7. 404 Page */}
+                {/* 7. Admin Panel Page (Protected / Admin Only) */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <AdminPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* 8. 404 Page */}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

@@ -120,6 +120,21 @@ const Navbar = () => {
               <User size={18} color="#60A5FA" />
               <span>Profile</span>
             </NavLink>
+
+            {user?.role === 'admin' && (
+              <NavLink
+                to="/admin"
+                style={({ isActive }) => ({
+                  ...navLinkStyle({ isActive }),
+                  background: isActive ? 'rgba(245, 158, 11, 0.25)' : 'rgba(245, 158, 11, 0.12)',
+                  border: isActive ? '1px solid #F59E0B' : '1px solid rgba(245, 158, 11, 0.35)',
+                  color: '#FDE68A',
+                })}
+              >
+                <Shield size={18} color="#FBBF24" />
+                <span>Admin Panel</span>
+              </NavLink>
+            )}
           </div>
         ) : null}
 
@@ -282,6 +297,16 @@ const Navbar = () => {
             <User size={18} color="#60A5FA" />
             <span>My Profile</span>
           </NavLink>
+          {user?.role === 'admin' && (
+            <NavLink
+              to="/admin"
+              style={navLinkStyle}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Shield size={18} color="#FBBF24" />
+              <span>Admin Panel</span>
+            </NavLink>
+          )}
         </div>
       )}
     </nav>

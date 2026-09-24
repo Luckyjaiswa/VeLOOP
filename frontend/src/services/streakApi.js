@@ -95,6 +95,38 @@ export const updateProfile = async (profileData) => {
   return response.data;
 };
 
+// ================= Admin API Calls =================
+
+export const getAdminOverview = async () => {
+  const response = await api.get('/api/admin/overview');
+  return response.data;
+};
+
+export const getAdminUsers = async () => {
+  const response = await api.get('/api/admin/users');
+  return response.data;
+};
+
+export const getAdminRewards = async () => {
+  const response = await api.get('/api/admin/rewards');
+  return response.data;
+};
+
+export const updateAdminReward = async (id, data) => {
+  const response = await api.put(`/api/admin/rewards/${id}`, data);
+  return response.data;
+};
+
+export const getAdminClaims = async () => {
+  const response = await api.get('/api/admin/claims');
+  return response.data;
+};
+
+export const getAdminAuditLogs = async () => {
+  const response = await api.get('/api/admin/audit-logs');
+  return response.data;
+};
+
 export default {
   getDailyStreak,
   getStreakStatus,
@@ -109,4 +141,10 @@ export default {
   getCurrentUser,
   logoutUser,
   updateProfile,
+  getAdminOverview,
+  getAdminUsers,
+  getAdminRewards,
+  updateAdminReward,
+  getAdminClaims,
+  getAdminAuditLogs,
 };

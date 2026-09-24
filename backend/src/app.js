@@ -7,6 +7,7 @@ const { errorHandler, notFoundHandler } = require('./middleware/errorMiddleware'
 const authRoutes = require('./routes/authRoutes');
 const streakRoutes = require('./routes/streakRoutes');
 const walletRoutes = require('./routes/walletRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -77,6 +78,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/daily-streak', streakRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 Handler
 app.use(notFoundHandler);
