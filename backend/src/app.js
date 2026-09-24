@@ -48,6 +48,22 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Root entry endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    service: 'VELoop Rewards – Daily Streak System API',
+    status: 'online',
+    frontendUrl: 'http://localhost:5173',
+    message: 'Welcome to VELoop Rewards Backend API. To access the user interface, open http://localhost:5173 in your browser.',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      dailyStreak: '/api/daily-streak',
+      wallet: '/api/wallet',
+    },
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
