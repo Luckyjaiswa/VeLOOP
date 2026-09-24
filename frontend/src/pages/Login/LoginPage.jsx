@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Flame, Mail, Lock, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
+import { Flame, Mail, Lock, ArrowRight, Sparkles, AlertCircle, Shield } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -40,6 +40,12 @@ const LoginPage = () => {
 
   const fillDemoAccount = () => {
     setEmail('demo@veloop.com');
+    setPassword('Password123!');
+    setError('');
+  };
+
+  const fillAdminAccount = () => {
+    setEmail('luckyjai898@veloop.com');
     setPassword('Password123!');
     setError('');
   };
@@ -214,8 +220,31 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Demo Account Button */}
-        <div style={{ marginTop: '1.25rem', textAlign: 'center' }}>
+        {/* Quick Fill Buttons */}
+        <div style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+          <button
+            type="button"
+            onClick={fillAdminAccount}
+            style={{
+              background: 'rgba(124, 58, 237, 0.25)',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              borderRadius: '10px',
+              color: '#DDD6FE',
+              padding: '0.55rem 1rem',
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              width: '100%',
+              justifyContent: 'center',
+            }}
+          >
+            <Shield size={16} color="#A78BFA" />
+            <span>Use Admin Account (Lucky Jai)</span>
+          </button>
+
           <button
             type="button"
             onClick={fillDemoAccount}
