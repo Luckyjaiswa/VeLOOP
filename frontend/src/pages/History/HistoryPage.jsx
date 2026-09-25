@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { History, Award, CheckCircle2, ChevronLeft, ChevronRight, Gift, Coins } from 'lucide-react';
+import { History, Award, CheckCircle2, ChevronLeft, ChevronRight, Gift, Coins, Eye, EyeOff, Copy, Check } from 'lucide-react';
 import { getStreakHistory } from '../../services/streakApi';
 import { formatDate } from '../../utils/formatters';
 import { useToast } from '../../context/ToastContext';
 import StreakLoader from '../../components/StreakLoader';
+import { maskVoucherCode } from '../../components/VoucherCard';
 
 const HistoryPage = () => {
   const [claims, setClaims] = useState([]);
@@ -11,7 +12,25 @@ const HistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [unmaskedCodes, setUnmaskedCodes] = useState(new Set());
+  const [copiedId, setCopiedId] = useState(null);
   const { showToast } = useToast();
+
+  const toggleCodeMask = (id) => {
+    setUnmaskedCodes((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const handleCopyCode = (code, id) => {
+    navigator.clipboard.writeText(code);
+    setCopiedId(id);
+    showToast(`Voucher code ${code} copied to clipboard!`, 'info');
+    setTimeout(() => setCopiedId(null), 2500);
+  };
 
   const loadHistory = async (pageNum = 1) => {
     try {
@@ -136,19 +155,56 @@ const HistoryPage = () => {
                     </td>
                     <td style={{ padding: '1rem' }}>
                       {claim.giftCardCode ? (
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.8rem',
-                            background: 'rgba(245, 158, 11, 0.15)',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '6px',
-                            color: '#FBBF24',
-                            border: '1px dashed rgba(245, 158, 11, 0.4)',
-                          }}
-                        >
-                          {claim.giftCardCode}
-                        </span>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '0.82rem',
+                              background: 'rgba(245, 158, 11, 0.15)',
+                              padding: '0.3rem 0.55rem',
+                              borderRadius: '6px',
+                              color: unmaskedCodes.has(claim._id) ? '#FDE68A' : '#FBBF24',
+                              border: '1px dashed rgba(245, 158, 11, 0.4)',
+                              fontWeight: 700,
+                            }}
+                          >
+                            {unmaskedCodes.has(claim._id)
+                              ? claim.giftCardCode
+                              : maskVoucherCode(claim.giftCardCode)}
+                          </span>
+                          <button
+                            onClick={() => toggleCodeMask(claim._id)}
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.08)',
+                              border: '1px solid rgba(255, 255, 255, 0.15)',
+                              borderRadius: '6px',
+                              color: unmaskedCodes.has(claim._id) ? '#FBBF24' : '#94A3B8',
+                              cursor: 'pointer',
+                              padding: '0.3rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                            title={unmaskedCodes.has(claim._id) ? 'Mask Code' : 'Show Code'}
+                          >
+                            {unmaskedCodes.has(claim._id) ? <EyeOff size={13} /> : <Eye size={13} />}
+                          </button>
+                          <button
+                            onClick={() => handleCopyCode(claim.giftCardCode, claim._id)}
+                            style={{
+                              background: copiedId === claim._id ? 'rgba(16, 185, 129, 0.25)' : 'rgba(245, 158, 11, 0.2)',
+                              border: copiedId === claim._id ? '1px solid #10B981' : '1px solid rgba(245, 158, 11, 0.4)',
+                              borderRadius: '6px',
+                              color: copiedId === claim._id ? '#34D399' : '#FBBF24',
+                              cursor: 'pointer',
+                              padding: '0.3rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                            title="Copy raw unmasked code"
+                          >
+                            {copiedId === claim._id ? <Check size={13} color="#34D399" /> : <Copy size={13} />}
+                          </button>
+                        </div>
                       ) : (
                         <span style={{ color: '#64748B' }}>—</span>
                       )}

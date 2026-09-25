@@ -4,6 +4,7 @@ const {
   claimDailyReward,
   devAdvanceDay,
   devSimulateMissedDay,
+  buyStreakFreeze,
 } = require('../services/streakService');
 
 /**
@@ -136,6 +137,20 @@ const handleDevSimulateMissed = async (req, res, next) => {
   }
 };
 
+/**
+ * @route   POST /api/streak/buy-freeze or /api/daily-streak/buy-freeze
+ * @desc    Purchase Streak Freeze Shield (50 VEs)
+ * @access  Private
+ */
+const handleBuyFreeze = async (req, res, next) => {
+  try {
+    const result = await buyStreakFreeze(req.user._id);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDailyStreak,
   getStreakStatus,
@@ -143,4 +158,5 @@ module.exports = {
   getStreakHistory,
   handleDevAdvanceDay,
   handleDevSimulateMissed,
+  handleBuyFreeze,
 };

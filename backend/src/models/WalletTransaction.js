@@ -21,7 +21,7 @@ const walletTransactionSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['DAILY_STREAK_REWARD', 'BONUS', 'REDEMPTION'],
+      enum: ['DAILY_STREAK_REWARD', 'BONUS', 'REDEMPTION', 'STREAK_FREEZE', 'STORE_REDEMPTION'],
       default: 'DAILY_STREAK_REWARD',
       index: true,
     },

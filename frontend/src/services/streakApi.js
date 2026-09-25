@@ -127,6 +127,51 @@ export const getAdminAuditLogs = async () => {
   return response.data;
 };
 
+// ================= Streak Freeze & Store API Calls =================
+
+/**
+ * Purchase a Streak Freeze Shield for 50 VEs
+ */
+export const buyStreakFreeze = async () => {
+  const response = await api.post('/api/streak/buy-freeze');
+  return response.data;
+};
+
+/**
+ * Fetch Rewards Store vouchers catalog
+ */
+export const getRedeemCatalog = async () => {
+  const response = await api.get('/api/rewards/catalog');
+  return response.data;
+};
+
+/**
+ * Redeem VE Coins for digital gift voucher
+ * @param {string} rewardType - 'AMAZON_5' | 'GOOGLE_PLAY_10' | 'FLIPKART_25'
+ */
+export const redeemStoreVoucher = async (rewardType) => {
+  const response = await api.post('/api/rewards/redeem', { rewardType });
+  return response.data;
+};
+
+/**
+ * Send message to AI Chatbot endpoint
+ * @param {string} message
+ * @param {Object} userContext - Optional dynamic live user state
+ */
+export const sendChatMessage = async (message, userContext = null) => {
+  const response = await api.post('/api/chat', { message, userContext });
+  return response.data;
+};
+
+/**
+ * Fetch Global Leaderboard (Top 10 users + current user rank and stats)
+ */
+export const getLeaderboard = async () => {
+  const response = await api.get('/api/leaderboard');
+  return response.data;
+};
+
 export default {
   getDailyStreak,
   getStreakStatus,
@@ -136,6 +181,11 @@ export default {
   redeemGiftCard,
   devAdvanceDay,
   devSimulateMissed,
+  buyStreakFreeze,
+  getRedeemCatalog,
+  redeemStoreVoucher,
+  sendChatMessage,
+  getLeaderboard,
   loginUser,
   registerUser,
   getCurrentUser,

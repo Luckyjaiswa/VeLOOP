@@ -4,7 +4,7 @@ const { getOrCreateWallet, redeemGiftCardVoucher } = require('../services/wallet
 
 /**
  * @route   GET /api/wallet
- * @desc    Get user's wallet balance, gift cards, and recent transactions
+ * @desc    Get user's wallet balance, gift cards / vouchers, and recent transactions
  * @access  Private
  */
 const getWallet = async (req, res, next) => {
@@ -13,7 +13,11 @@ const getWallet = async (req, res, next) => {
 
     const transactions = await WalletTransaction.find({ userId: req.user._id })
       .sort({ createdAt: -1 })
-      .limit(20);
+      .limit(30);
+
+    const vouchers = wallet.amazonGiftCards || [];
+    const activeVouchers = vouchers.filter((v) => !v.isRedeemed);
+    const redeemedVouchers = vouchers.filter((v) => v.isRedeemed);
 
     return res.status(200).json({
       success: true,
@@ -21,7 +25,10 @@ const getWallet = async (req, res, next) => {
         veBalance: wallet.veBalance,
         totalVeEarned: wallet.totalVeEarned,
         totalAmazonEarned: wallet.totalAmazonEarned,
-        amazonGiftCards: wallet.amazonGiftCards,
+        amazonGiftCards: vouchers,
+        vouchers,
+        activeVouchers,
+        redeemedVouchers,
         transactions,
       },
     });
@@ -31,8 +38,8 @@ const getWallet = async (req, res, next) => {
 };
 
 /**
- * @route   POST /api/wallet/redeem-gift-card/:id
- * @desc    Mark an Amazon gift card voucher as redeemed
+ * @route   POST /api/wallet/redeem/:id
+ * @desc    Mark a voucher as redeemed
  * @access  Private
  */
 const redeemGiftCard = async (req, res, next) => {
@@ -42,7 +49,7 @@ const redeemGiftCard = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: `Gift card ${voucher.code} has been marked as redeemed!`,
+      message: `Voucher ${voucher.code} marked as redeemed!`,
       data: voucher,
     });
   } catch (error) {

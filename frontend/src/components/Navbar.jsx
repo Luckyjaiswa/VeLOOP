@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Flame, Wallet, History, User, LogOut, Menu, X, Coins, Gift, Shield } from 'lucide-react';
+import { Flame, Wallet, History, User, LogOut, Menu, X, Coins, Gift, Shield, Trophy } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -104,6 +104,11 @@ const Navbar = () => {
             <NavLink to="/" style={navLinkStyle} end>
               <Flame size={18} color="#F59E0B" />
               <span>Daily Streak</span>
+            </NavLink>
+
+            <NavLink to="/leaderboard" style={navLinkStyle}>
+              <Trophy size={18} color="#FBBF24" />
+              <span>Leaderboard</span>
             </NavLink>
 
             <NavLink to="/wallet" style={navLinkStyle}>
@@ -272,6 +277,14 @@ const Navbar = () => {
           >
             <Flame size={18} color="#F59E0B" />
             <span>Daily Streak Dashboard</span>
+          </NavLink>
+          <NavLink
+            to="/leaderboard"
+            style={navLinkStyle}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Trophy size={18} color="#FBBF24" />
+            <span>Leaderboard</span>
           </NavLink>
           <NavLink
             to="/wallet"

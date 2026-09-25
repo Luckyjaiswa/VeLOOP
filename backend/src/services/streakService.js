@@ -69,7 +69,30 @@ const getOrCreateActiveCycle = async (userId) => {
   // Only applies if the user has already claimed at least 1 day in this cycle
   if (cycle.currentStreak > 0 && cycle.claimWindowExpiresAt) {
     if (now > cycle.claimWindowExpiresAt) {
-      // User missed the window! Streak resets back to Day 1
+      // Feature 1: Streak Freeze Shield gamification
+      if (cycle.hasFreeze) {
+        cycle.hasFreeze = false;
+        // Extend the window so the user gets a second chance to check in
+        cycle.nextClaimAt = now;
+        cycle.claimWindowExpiresAt = new Date(now.getTime() + (config.missedWindowHours || 48) * 3600 * 1000);
+        await cycle.save();
+
+        await logAudit({
+          userId,
+          action: 'STREAK_FREEZE_CONSUMED',
+          metadata: {
+            cycleId: cycle._id,
+            streakPreserved: cycle.currentStreak,
+            extendedUntil: cycle.claimWindowExpiresAt,
+            serverTime: now,
+          },
+          status: 'SUCCESS',
+        });
+
+        return cycle;
+      }
+
+      // User missed the window and has no freeze shield! Streak resets back to Day 1
       cycle.status = 'BROKEN';
       await cycle.save();
 
@@ -95,6 +118,7 @@ const getOrCreateActiveCycle = async (userId) => {
         lastClaimAt: null,
         nextClaimAt: now, // Day 1 is available immediately
         claimWindowExpiresAt: null,
+        hasFreeze: false,
       });
 
       return cycle;
@@ -207,6 +231,7 @@ const getStreakDashboardData = async (userId) => {
       lastClaimAt: cycle.lastClaimAt,
       nextClaimAt: cycle.nextClaimAt,
       claimWindowExpiresAt: cycle.claimWindowExpiresAt,
+      hasFreeze: cycle.hasFreeze || false,
     },
     config: {
       cycleLength: config.cycleLength,
@@ -219,6 +244,7 @@ const getStreakDashboardData = async (userId) => {
       currentDay: nextEligibleDay,
       remainingCooldownMs,
       remainingWindowMs,
+      hasFreeze: cycle.hasFreeze || false,
     },
     stats: {
       currentStreak: cycle.currentStreak,
@@ -451,10 +477,80 @@ const devSimulateMissedDay = async (userId) => {
   return await getStreakDashboardData(userId);
 };
 
+/**
+ * Feature 1: Purchase Streak Freeze Shield
+ * Deducts 50 VEs from user's wallet, activates hasFreeze on active cycle
+ */
+const buyStreakFreeze = async (userId) => {
+  const wallet = await getOrCreateWallet(userId);
+  const cycle = await getOrCreateActiveCycle(userId);
+
+  // Check if freeze is already active
+  if (cycle.hasFreeze) {
+    const error = new Error('Streak Freeze is already active for your current streak!');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Check if user has at least 50 VEs
+  if (wallet.veBalance < 50) {
+    const error = new Error('Insufficient VE coins. You need 50 VEs to purchase a Streak Freeze Shield.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Deduct 50 VEs
+  wallet.veBalance -= 50;
+  await wallet.save();
+
+  // Activate freeze on streak cycle
+  cycle.hasFreeze = true;
+  await cycle.save();
+
+  // Log in transaction history
+  const WalletTransaction = require('../models/WalletTransaction');
+  await WalletTransaction.create({
+    userId,
+    walletId: wallet._id,
+    type: 'DEBIT',
+    category: 'STREAK_FREEZE',
+    amount: 50,
+    currency: 'VE',
+    description: 'Purchased Streak Freeze Shield (50 VEs)',
+    balanceAfter: wallet.veBalance,
+    metadata: { cycleId: cycle._id },
+  });
+
+  // Log audit
+  await logAudit({
+    userId,
+    action: 'STREAK_FREEZE_PURCHASED',
+    metadata: {
+      cost: 50,
+      remainingBalance: wallet.veBalance,
+      cycleId: cycle._id,
+    },
+    status: 'SUCCESS',
+  });
+
+  return {
+    success: true,
+    message: 'Streak Freeze Shield activated! Your streak is protected from 1 missed check-in.',
+    hasFreeze: true,
+    veBalance: wallet.veBalance,
+    cycle: {
+      id: cycle._id,
+      currentStreak: cycle.currentStreak,
+      hasFreeze: true,
+    },
+  };
+};
+
 module.exports = {
   getStreakDashboardData,
   claimDailyReward,
   devAdvanceDay,
   devSimulateMissedDay,
   getActiveConfig,
+  buyStreakFreeze,
 };

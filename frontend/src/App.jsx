@@ -6,9 +6,11 @@ import { ToastProvider } from './context/ToastContext';
 // Components
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import AIChatWidget from './components/AIChatWidget';
 
 // Pages
 import DailyStreakPage from './pages/DailyStreak/DailyStreakPage';
+import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import WalletPage from './pages/Wallet/WalletPage';
@@ -32,6 +34,16 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <DailyStreakPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Leaderboard Page (Protected) */}
+                <Route
+                  path="/leaderboard"
+                  element={
+                    <ProtectedRoute>
+                      <LeaderboardPage />
                     </ProtectedRoute>
                   }
                 />
@@ -86,6 +98,8 @@ function App() {
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>
+            {/* Floating Corner AI Chatbot Widget (Gemini 2.5 Flash) */}
+            <AIChatWidget />
           </div>
         </AuthProvider>
       </ToastProvider>

@@ -2,11 +2,24 @@ import React, { useState } from 'react';
 import { FastForward, AlertTriangle, Wrench, ChevronUp, ChevronDown, Check } from 'lucide-react';
 import { devAdvanceDay, devSimulateMissed } from '../services/streakApi';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 const DevControls = ({ onActionSuccess }) => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [loadingAction, setLoadingAction] = useState(false);
   const { showToast } = useToast();
+
+  const isAdmin =
+    user &&
+    (user.role === 'admin' ||
+      user.isAdmin === true ||
+      user.email === 'luckyjai898@veloop.com');
+
+  // Restrict completely from DOM for regular users
+  if (!isAdmin) {
+    return null;
+  }
 
   const handleAdvanceDay = async () => {
     try {

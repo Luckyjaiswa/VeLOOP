@@ -8,6 +8,10 @@ const authRoutes = require('./routes/authRoutes');
 const streakRoutes = require('./routes/streakRoutes');
 const walletRoutes = require('./routes/walletRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const assistantRoutes = require('./routes/assistantRoutes');
+const storeRoutes = require('./routes/storeRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
 
 const app = express();
 
@@ -77,8 +81,13 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/daily-streak', streakRoutes);
+app.use('/api/streak', streakRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/rewards', storeRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/assistant', assistantRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // 404 Handler
 app.use(notFoundHandler);

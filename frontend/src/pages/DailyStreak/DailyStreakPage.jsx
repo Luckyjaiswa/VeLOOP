@@ -14,12 +14,20 @@ import StreakSkeleton from '../../components/StreakSkeleton';
 import WhyStreak from '../../components/WhyStreak';
 import TrustFooter from '../../components/TrustFooter';
 import DevControls from '../../components/DevControls';
+import StreakFreezeCard from '../../components/StreakFreezeCard';
+import RewardsStore from '../../components/RewardsStore';
 
 import styles from './DailyStreak.module.css';
 
 const DailyStreakPage = () => {
-  const { updateWalletSummary } = useAuth();
+  const { user, updateWalletSummary } = useAuth();
   const { showToast } = useToast();
+
+  const isAdmin =
+    user &&
+    (user.role === 'admin' ||
+      user.isAdmin === true ||
+      user.email === 'luckyjai898@veloop.com');
 
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -153,6 +161,12 @@ const DailyStreakPage = () => {
         isClaiming={isClaiming}
       />
 
+      {/* Feature 1: Streak Freeze Shield Card */}
+      <StreakFreezeCard
+        hasFreeze={cycle.hasFreeze || eligibility.hasFreeze}
+        onFreezePurchased={() => fetchDashboard(false)}
+      />
+
       {/* 3. Statistics Bar */}
       <StreakStats stats={stats} />
 
@@ -169,6 +183,9 @@ const DailyStreakPage = () => {
         isClaiming={isClaiming}
       />
 
+      {/* Feature 2: Rewards Redemption Store */}
+      <RewardsStore onRedeemSuccess={() => fetchDashboard(false)} />
+
       {/* 6. Why Streak Section */}
       <WhyStreak />
 
@@ -184,8 +201,8 @@ const DailyStreakPage = () => {
         isClaiming={isClaiming}
       />
 
-      {/* Developer testing toolbar */}
-      <DevControls onActionSuccess={() => fetchDashboard(false)} />
+      {/* Developer testing toolbar - strictly restricted to Admins */}
+      {isAdmin && <DevControls onActionSuccess={() => fetchDashboard(false)} />}
     </div>
   );
 };

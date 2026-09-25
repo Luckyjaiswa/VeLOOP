@@ -41,6 +41,10 @@ const streakCycleSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    hasFreeze: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -6,6 +6,10 @@ const giftCardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    brand: {
+      type: String,
+      default: 'Amazon Pay',
+    },
     amount: {
       type: Number,
       required: true,
