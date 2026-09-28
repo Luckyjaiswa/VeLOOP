@@ -12,9 +12,18 @@ let isConnected = false;
 
 module.exports = async (req, res) => {
   if (!isConnected) {
-    await connectDB();
-    await autoSeedRewardsIfEmpty();
-    isConnected = true;
+    try {
+      await connectDB();
+      await autoSeedRewardsIfEmpty();
+      isConnected = true;
+    } catch (error) {
+      console.error('Vercel initialization error:', error);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Internal Server Error during initialization. Check Vercel logs.', 
+        error: error.message 
+      });
+    }
   }
   return app(req, res);
 };
