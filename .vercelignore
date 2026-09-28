@@ -1,0 +1,17 @@
+node_modules
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/node_modules
+frontend/node_modules
+frontend/dist
+backend/tests
+backend/seed.js
+backend/verifyAndSeedAtlas.js
+*.log
+.DS_Store
+Thumbs.db
+.vscode
+.idea

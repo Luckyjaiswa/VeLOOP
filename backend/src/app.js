@@ -55,11 +55,12 @@ if (process.env.NODE_ENV === 'development') {
 
 // Root entry endpoint
 app.get('/', (req, res) => {
+  const frontendUrl = process.env.CORS_ORIGIN || 'http://localhost:5173';
   res.status(200).json({
     service: 'VELoop Rewards – Daily Streak System API',
     status: 'online',
-    frontendUrl: 'http://localhost:5173',
-    message: 'Welcome to VELoop Rewards Backend API. To access the user interface, open http://localhost:5173 in your browser.',
+    frontendUrl,
+    message: `Welcome to VELoop Rewards Backend API. To access the user interface, open ${frontendUrl} in your browser.`,
     endpoints: {
       health: '/api/health',
       auth: '/api/auth',
