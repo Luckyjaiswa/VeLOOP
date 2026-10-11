@@ -222,7 +222,7 @@ const LoginPage = () => {
 
         {/* Quick Fill Buttons */}
         <div style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-          <button
+          {/* <button
             type="button"
             onClick={fillAdminAccount}
             style={{
@@ -243,7 +243,7 @@ const LoginPage = () => {
           >
             <Shield size={16} color="#A78BFA" />
             <span>Use Admin Account (Lucky Jai)</span>
-          </button>
+          </button> */}
 
           <button
             type="button"
