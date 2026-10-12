@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Copy, Check, Gift, ShoppingBag, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { AmazonGiftCardAsset } from './RewardAssetBadge';
 import { useToast } from '../context/ToastContext';
 import { formatDate } from '../utils/formatters';
 
@@ -115,21 +116,27 @@ const VoucherCard = ({ voucher, onRedeem, isRedeeming = false }) => {
           </div>
         </div>
 
-        {/* Status Pill */}
-        <span
-          style={{
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            padding: '0.25rem 0.65rem',
-            borderRadius: '12px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            background: isRedeemed ? 'rgba(255, 255, 255, 0.08)' : 'rgba(16, 185, 129, 0.2)',
-            border: isRedeemed ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #10B981',
-            color: isRedeemed ? '#94A3B8' : '#34D399',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          {isAmazon && (
+            <div style={{ display: 'inline-flex', transform: 'scale(0.8)', transformOrigin: 'right center' }}>
+              <AmazonGiftCardAsset amount={`₹${voucher.amount}`} size="sm" />
+            </div>
+          )}
+          {/* Status Pill */}
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '12px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              background: isRedeemed ? 'rgba(255, 255, 255, 0.08)' : 'rgba(16, 185, 129, 0.2)',
+              border: isRedeemed ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #10B981',
+              color: isRedeemed ? '#94A3B8' : '#34D399',
+            }}
+          >
           {isRedeemed ? (
             <>
               <CheckCircle2 size={12} />
@@ -150,6 +157,7 @@ const VoucherCard = ({ voucher, onRedeem, isRedeeming = false }) => {
             </>
           )}
         </span>
+        </div>
       </div>
 
       {/* Masked Voucher Code Box */}

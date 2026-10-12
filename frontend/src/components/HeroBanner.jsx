@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flame, Clock, Gift, CheckCircle, Zap } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
+import RewardAssetBadge from './RewardAssetBadge';
 import styles from '../pages/DailyStreak/DailyStreak.module.css';
 
 const HeroBanner = ({
@@ -21,7 +22,7 @@ const HeroBanner = ({
       <div className={styles.heroContent}>
         {/* Left Column: Streak Info & Action */}
         <div className={styles.heroText}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
             <span
               style={{
                 display: 'inline-flex',
@@ -60,12 +61,19 @@ const HeroBanner = ({
             )}
           </div>
 
-          <h2>
-            Day {currentDay}: Unlock{' '}
-            <span className={styles.heroHighlight}>
-              {nextReward ? nextReward.title : 'Daily Reward'}
-            </span>
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+            <h2>
+              Day {currentDay}: Unlock{' '}
+              <span className={styles.heroHighlight}>
+                {nextReward ? nextReward.title : 'Daily Reward'}
+              </span>
+            </h2>
+            {nextReward && (
+              <div style={{ display: 'inline-flex', transform: 'scale(0.85)', transformOrigin: 'left center' }}>
+                <RewardAssetBadge dayNumber={currentDay} reward={nextReward} size="sm" />
+              </div>
+            )}
+          </div>
 
           <p className={styles.heroSubtext}>
             {canClaim

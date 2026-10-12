@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Gift, X, CheckCircle2, Copy, Check, Sparkles, AlertCircle } from 'lucide-react';
+import { Gift, X, CheckCircle2, Copy, Check, Sparkles, AlertCircle, ArrowRight } from 'lucide-react';
 import CpaDemo from './CpaDemo';
+import RewardAssetBadge from './RewardAssetBadge';
 import styles from '../pages/DailyStreak/DailyStreak.module.css';
 
 const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) => {
@@ -11,6 +12,8 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
   const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen || !reward) return null;
+
+  const isAmazonCard = reward.rewardType === 'AMAZON_GIFT_CARD' || reward.title?.toLowerCase().includes('amazon');
 
   // Trigger celebration confetti
   const triggerConfetti = (isUltimate = false) => {
@@ -69,12 +72,20 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
         {step === 'confirm' && (
           <div>
             <div className={styles.modalHeader}>
-              <div className={styles.modalIconCircle}>
-                <Gift size={36} />
+              <div style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'center' }}>
+                <RewardAssetBadge
+                  dayNumber={reward.dayNumber}
+                  reward={reward}
+                  size={reward.isUltimateReward ? 'lg' : 'md'}
+                />
               </div>
               <h2 className={styles.modalTitle}>Claim Day {reward.dayNumber} Reward</h2>
               <p className={styles.modalSubtitle}>
-                Unlock your daily reward and maintain your streak momentum
+                {reward.isUltimateReward
+                  ? 'Unlock the Grand Finale ₹5 Amazon Gift Card prize!'
+                  : isAmazonCard
+                  ? 'Claim your official Amazon Gift Card Voucher'
+                  : 'Claim your VELoop Virtual Currency Coins'}
               </p>
             </div>
 
@@ -101,9 +112,7 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
             <div className={styles.rewardRevealBox}>
               <div className={styles.revealValue}>{reward.title}</div>
               <div className={styles.revealTitle}>
-                {reward.rewardType === 'AMAZON_GIFT_CARD'
-                  ? 'Real Amazon Gift Card Voucher'
-                  : 'VELoop Virtual Coins'}
+                {isAmazonCard ? 'Official Amazon Gift Card Voucher' : 'VELoop Virtual Coins'}
               </div>
             </div>
 
@@ -133,24 +142,22 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
         {/* STEP 3: Success Reveal */}
         {step === 'success' && claimResult && (
           <div style={{ textAlign: 'center' }}>
-            <div
-              className={styles.modalIconCircle}
-              style={{
-                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                boxShadow: '0 0 30px rgba(16, 185, 129, 0.6)',
-              }}
-            >
-              <CheckCircle2 size={40} />
+            <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+              <RewardAssetBadge
+                dayNumber={reward.dayNumber}
+                reward={reward}
+                size="md"
+              />
             </div>
 
             <h2 className={styles.modalTitle} style={{ color: '#34D399' }}>
-              Reward Claimed!
+              🎉 Reward Claimed!
             </h2>
             <p className={styles.modalSubtitle}>
               {claimResult.message || 'Your reward has been credited to your VELoop Wallet.'}
             </p>
 
-            <div className={styles.rewardRevealBox} style={{ margin: '1.5rem 0' }}>
+            <div className={styles.rewardRevealBox} style={{ margin: '1.25rem 0' }}>
               <div className={styles.revealValue} style={{ color: '#FBBF24' }}>
                 {claimResult.claimedReward?.title}
               </div>
@@ -158,7 +165,7 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
               {/* If Amazon Gift Card was awarded, display code */}
               {claimResult.claimedReward?.giftCardCode && (
                 <div style={{ marginTop: '1rem' }}>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Your Amazon Voucher Code:
                   </div>
                   <div
@@ -169,17 +176,18 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
                       gap: '0.5rem',
                       marginTop: '0.4rem',
                       background: 'rgba(245, 158, 11, 0.15)',
-                      padding: '0.5rem 0.75rem',
+                      padding: '0.6rem 0.85rem',
                       borderRadius: '10px',
                       border: '1px dashed #F59E0B',
                     }}
                   >
                     <span
                       style={{
-                        fontFamily: 'var(--font-mono)',
+                        fontFamily: 'var(--font-mono, monospace)',
                         fontWeight: 700,
                         color: '#FBBF24',
-                        letterSpacing: '0.05em',
+                        letterSpacing: '0.08em',
+                        fontSize: '0.95rem',
                       }}
                     >
                       {claimResult.claimedReward.giftCardCode}
@@ -187,15 +195,30 @@ const ClaimModal = ({ reward, isOpen, onClose, onClaimConfirmed, isClaiming }) =
                     <button
                       onClick={() => handleCopyVoucher(claimResult.claimedReward.giftCardCode)}
                       style={{
-                        background: 'none',
+                        background: 'rgba(255, 255, 255, 0.1)',
                         border: 'none',
+                        borderRadius: '6px',
                         color: '#DDD6FE',
                         cursor: 'pointer',
-                        padding: '2px',
+                        padding: '4px 8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.75rem',
                       }}
                       title="Copy voucher code"
                     >
-                      {copiedCode ? <Check size={16} color="#34D399" /> : <Copy size={16} />}
+                      {copiedCode ? (
+                        <>
+                          <Check size={14} color="#34D399" />
+                          <span style={{ color: '#34D399' }}>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={14} />
+                          <span>Copy</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>

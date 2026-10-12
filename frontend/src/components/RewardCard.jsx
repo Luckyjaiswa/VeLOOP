@@ -1,18 +1,12 @@
 import React from 'react';
 import {
-  Coins,
-  Flame,
-  Zap,
-  Gift,
-  ShoppingBag,
-  Award,
-  Crown,
-  Lock,
   Check,
+  Lock,
   Clock,
   AlertTriangle,
   Sparkles,
 } from 'lucide-react';
+import RewardAssetBadge from './RewardAssetBadge';
 import styles from '../pages/DailyStreak/DailyStreak.module.css';
 
 const RewardCard = ({ reward, onClaim, isClaiming }) => {
@@ -28,28 +22,7 @@ const RewardCard = ({ reward, onClaim, isClaiming }) => {
     badgeText,
   } = reward;
 
-  // Icon mapping
-  const renderIcon = () => {
-    const iconSize = 24;
-    switch (dayNumber) {
-      case 1:
-        return <Coins size={iconSize} color="#A78BFA" />;
-      case 2:
-        return <Flame size={iconSize} color="#F59E0B" />;
-      case 3:
-        return <Zap size={iconSize} color="#EC4899" />;
-      case 4:
-        return <Gift size={iconSize} color="#FBBF24" />;
-      case 5:
-        return <ShoppingBag size={iconSize} color="#EAB308" />;
-      case 6:
-        return <Award size={iconSize} color="#06B6D4" />;
-      case 7:
-        return <Crown size={iconSize} color="#FBBF24" />;
-      default:
-        return <Gift size={iconSize} color="#A78BFA" />;
-    }
-  };
+  const isAmazonCard = rewardType === 'AMAZON_GIFT_CARD' || title?.toLowerCase().includes('amazon');
 
   // Determine container class based on state
   let stateClass = styles.cardLocked;
@@ -59,37 +32,60 @@ const RewardCard = ({ reward, onClaim, isClaiming }) => {
   else if (state === 'MISSED') stateClass = styles.cardMissed;
 
   const ultimateClass = isUltimateReward ? styles.cardUltimate : '';
+  const amazonClass = isAmazonCard ? styles.cardAmazonReward : '';
 
   return (
-    <div className={`${styles.rewardCard} ${stateClass} ${ultimateClass}`}>
+    <div className={`${styles.rewardCard} ${stateClass} ${ultimateClass} ${amazonClass}`}>
       {/* Top Day Badge */}
-      <div
-        className={`${styles.dayBadge} ${
-          state === 'AVAILABLE' || state === 'TODAY' ? styles.dayBadgeActive : ''
-        }`}
-      >
-        Day {dayNumber}
+      <div className={styles.cardHeaderRow}>
+        <div
+          className={`${styles.dayBadge} ${
+            state === 'AVAILABLE' || state === 'TODAY' ? styles.dayBadgeActive : ''
+          } ${isUltimateReward ? styles.dayBadgeUltimate : ''}`}
+        >
+          {isUltimateReward ? '👑 Day 7 Grand' : `Day ${dayNumber}`}
+        </div>
+        {isUltimateReward && (
+          <span className={styles.ultimateMicroBadge}>Finale</span>
+        )}
       </div>
 
-      {/* Reward Icon */}
-      <div
-        className={styles.cardIconBox}
-        style={{
-          background:
-            state === 'CLAIMED'
-              ? 'rgba(16, 185, 129, 0.2)'
-              : isUltimateReward
-              ? 'rgba(245, 158, 11, 0.25)'
-              : 'rgba(139, 92, 246, 0.15)',
-        }}
-      >
-        {state === 'CLAIMED' ? <Check size={24} color="#34D399" /> : renderIcon()}
+      {/* Reward Authentic Visual Asset Badge */}
+      <div className={styles.cardAssetBox}>
+        <RewardAssetBadge
+          dayNumber={dayNumber}
+          reward={reward}
+          size={isUltimateReward ? 'md' : 'sm'}
+        />
+
+        {/* Claimed Verification Stamp Overlay */}
+        {state === 'CLAIMED' && (
+          <div className={styles.claimedSealOverlay} title="Claimed">
+            <Check size={16} strokeWidth={3} />
+          </div>
+        )}
       </div>
 
-      {/* Reward Value */}
-      <div className={styles.cardValueText}>{title}</div>
-      <div className={styles.cardDescText}>
-        {rewardType === 'AMAZON_GIFT_CARD' ? 'Amazon Voucher' : 'Virtual Currency'}
+      {/* Reward Value Title */}
+      <div className={styles.cardInfoGroup}>
+        <div
+          className={`${styles.cardValueText} ${
+            isAmazonCard ? styles.amazonValueText : ''
+          } ${isUltimateReward ? styles.ultimateValueText : ''}`}
+        >
+          {title}
+        </div>
+        <div className={styles.cardDescText}>
+          {isAmazonCard ? (
+            <span className={styles.amazonBadgeLabel}>
+              <span className={styles.amazonSmileDot}>•</span> Amazon Voucher
+            </span>
+          ) : (
+            <span className={styles.veBadgeLabel}>
+              <span className={styles.veDot}>•</span> Virtual Currency
+            </span>
+          )}
+        </div>
       </div>
 
       {/* State-specific Footer Action / Badge */}
@@ -107,7 +103,7 @@ const RewardCard = ({ reward, onClaim, isClaiming }) => {
 
         {state === 'CLAIMED' && (
           <div className={styles.claimedBadge}>
-            <Check size={14} />
+            <Check size={13} strokeWidth={2.5} />
             <span>Claimed</span>
           </div>
         )}

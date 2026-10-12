@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Coins, Gift, Copy, Check, Sparkles, ExternalLink, ShieldCheck } from 'lucide-react';
+import { AmazonGiftCardAsset } from './RewardAssetBadge';
 import { redeemStoreVoucher } from '../services/streakApi';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -326,10 +327,30 @@ const RewardsStore = ({ onRedeemSuccess }) => {
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
-                  {item.title}
-                </h3>
-                <p style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: '0.35rem', lineHeight: 1.4 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginTop: '0.4rem', marginBottom: '0.6rem' }}>
+                  {item.brand.includes('Amazon') ? (
+                    <AmazonGiftCardAsset amount={`₹${item.amount}`} size="sm" />
+                  ) : (
+                    <div
+                      style={{
+                        padding: '0.4rem 0.8rem',
+                        borderRadius: '8px',
+                        background: item.accentColor,
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '0.85rem',
+                      }}
+                    >
+                      {item.brand}
+                    </div>
+                  )}
+                  <div>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+                <p style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: '0.2rem', lineHeight: 1.4 }}>
                   {item.description}
                 </p>
               </div>
